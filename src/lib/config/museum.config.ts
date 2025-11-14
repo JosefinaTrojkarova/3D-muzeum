@@ -93,7 +93,7 @@ export const museumConfig = {
 
     scene: {
         // Environment/Skybox
-        skybox_hdr_path: '/env/star.hdr',
+        skybox_texture_path: '/env/star.webp',
         skybox_radius: 500.0,
         skybox_segments_width: 60,
         skybox_segments_height: 40,
