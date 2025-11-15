@@ -69,7 +69,7 @@ All museum-specific settings are centralized in `src/lib/config/museum.config.ts
 - **Scene**: Skybox configuration
 - **Floor**: Dimensions and textures
 - **Gallery**: Layout, spacing, painting list
-- **Stands**: Pedestal, backing, and canvas properties
+- **Stands**: Backing and canvas properties
 - **Picture Lights**: Fixture dimensions and spotlight settings
 
 To modify the museum, edit the values in `museum.config.ts` and the changes will be applied immediately in development mode.

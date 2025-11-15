@@ -9,12 +9,20 @@ export function setupLighting(scene: THREE.Scene) {
     
     // Ambient light for base illumination
     const ambientLight = new THREE.AmbientLight(config.ambient_color, config.ambient_intensity);
+    
+    // Make ambient light not affect the floor (only layer 0)
+    ambientLight.layers.disableAll();
+    ambientLight.layers.enable(0);
+    
     scene.add(ambientLight);
     
     // Directional light (sun)
     const sunLight = new THREE.DirectionalLight(config.sun_color, config.sun_intensity);
     sunLight.position.set(config.sun_position_x, config.sun_position_y, config.sun_position_z);
     sunLight.castShadow = true;
+    
+    // Make sun light affect all layers including the floor's special layer
+    sunLight.layers.enableAll();
     
     // Configure shadow properties
     sunLight.shadow.mapSize.width = config.shadows.map_width;

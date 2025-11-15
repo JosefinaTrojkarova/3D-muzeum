@@ -119,9 +119,9 @@ export const museumConfig = {
     gallery: {
         // Gallery layout
         stand_spacing: 5.0, // Distance between stands in same row
-        stands_per_row: 3,
-        row_spacing: 10.0, // Distance between rows
-        start_position_x: 5.0,
+        stands_per_row: 5,
+        row_spacing: 4, // Distance between rows
+        start_position_x: -10.0,
         start_position_y: 0.0,
         start_position_z: 0.0,
         
@@ -131,6 +131,17 @@ export const museumConfig = {
             '2.webp',
             '3.webp',
             '4.webp',
+            '5.webp',
+            '6.webp',
+            '7.webp',
+            '8.webp',
+            '9.webp',
+            '10.webp',
+            '11.webp',
+            '12.webp',
+            '13.webp',
+            '14.webp',
+            '15.webp',
         ],
         
         // Paint texture
@@ -140,14 +151,6 @@ export const museumConfig = {
     },
 
     stand: {
-        // Pedestal/Base
-        pedestal_width: 1.5,
-        pedestal_height: 0.1,
-        pedestal_depth: 1.5,
-        pedestal_color: 0x3d2817, // Dark brown
-        pedestal_roughness: 0.8,
-        pedestal_metalness: 0.1,
-        
         // Backing board
         backing_width: 2.0,
         backing_height: 3.0,
@@ -155,13 +158,13 @@ export const museumConfig = {
         backing_color: 0x8b7355, // Light brown
         backing_roughness: 0.9,
         backing_metalness: 0.0,
-        backing_position_y: 1.7,
+        backing_ground_offset: 0,
         backing_position_z: -0.7,
         
         // Painting/Canvas
         painting_default_width: 1.6,
         painting_depth: 0.05,
-        painting_center_height: 1.7, // Eye height + pedestal height
+        painting_center_height: 1.6,
         painting_z_offset: -0.65,
         painting_color: 0xf5f5f5, // Off-white
         painting_roughness: 0.6,
@@ -210,16 +213,6 @@ export const museumConfig = {
         diffuser_emissive_intensity: 3.5,
         diffuser_roughness: 0.25,
         diffuser_metalness: 0.0,
-        
-        spotlight_color: 0xfff4e6,
-        spotlight_intensity: 1,
-        spotlight_distance: 5.5,
-        spotlight_angle: Math.PI / 3.6,
-        spotlight_penumbra: 0.55,
-        spotlight_decay: 1.0,
-        spotlight_cast_shadow: false,
-        spotlight_vertical_offset: 0.0,
-        spotlight_side_inset: 0.12,
     },
 
     plaque: {

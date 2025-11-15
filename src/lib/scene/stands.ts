@@ -17,22 +17,6 @@ export async function createArtworkStand(
     const config = getConfig().stand;
     const stand = new THREE.Group();
     
-    const baseGeometry = new THREE.BoxGeometry(
-        config.pedestal_width,
-        config.pedestal_height,
-        config.pedestal_depth
-    );
-    const baseMaterial = new THREE.MeshStandardMaterial({ 
-        color: config.pedestal_color,
-        roughness: config.pedestal_roughness,
-        metalness: config.pedestal_metalness
-    });
-    const base = new THREE.Mesh(baseGeometry, baseMaterial);
-    base.position.y = config.pedestal_height / 2;
-    base.castShadow = true;
-    base.receiveShadow = true;
-    stand.add(base);
-    
     const backingGeometry = new THREE.BoxGeometry(
         config.backing_width,
         config.backing_height,
@@ -44,7 +28,8 @@ export async function createArtworkStand(
         metalness: config.backing_metalness
     });
     const backing = new THREE.Mesh(backingGeometry, backingMaterial);
-    backing.position.y = config.backing_position_y;
+    const backingBaseY = (config.backing_height / 2) + config.backing_ground_offset;
+    backing.position.y = backingBaseY;
     backing.position.z = config.backing_position_z;
     backing.castShadow = true;
     backing.receiveShadow = true;
@@ -64,13 +49,7 @@ export async function createArtworkStand(
     stand.rotation.y = rotation;
     scene.add(stand);
     
-    const baseColliderPos = new THREE.Vector3(position.x, config.pedestal_height / 2, position.z);
-    physics.createBoxCollider(
-        baseColliderPos,
-        new THREE.Vector3(config.pedestal_width, config.pedestal_height, config.pedestal_depth)
-    );
-    
-    const backingOffset = new THREE.Vector3(0, config.backing_position_y, config.backing_position_z);
+    const backingOffset = new THREE.Vector3(0, backingBaseY, config.backing_position_z);
     backingOffset.applyAxisAngle(new THREE.Vector3(0, 1, 0), rotation);
     const backingColliderPos = new THREE.Vector3(
         position.x + backingOffset.x,
@@ -123,12 +102,8 @@ export function loadPaintingTexture(
                 config.painting_depth
             );
             
-            const frontMaterial = new THREE.MeshStandardMaterial({ 
-                map: texture,
-                normalMap: usedNormalMap,
-                color: 0xffffff,
-                roughness: config.painting_roughness,
-                metalness: config.painting_metalness
+            const frontMaterial = new THREE.MeshBasicMaterial({
+                map: texture
             });
             
             const edgeMaterial = new THREE.MeshStandardMaterial({ 

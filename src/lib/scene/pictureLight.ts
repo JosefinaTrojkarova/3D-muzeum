@@ -169,72 +169,7 @@ export function createPictureLight(params: PictureLightParams): THREE.Group {
     lightAssembly.add(diffuser);
 
     group.add(lightAssembly);
-    
-    const spotLightLeft = new THREE.SpotLight(
-        config.spotlight_color,
-        config.spotlight_intensity,
-        config.spotlight_distance,
-        config.spotlight_angle,
-        config.spotlight_penumbra,
-        config.spotlight_decay
-    );
-    spotLightLeft.position.set(
-        -barHalfLength + config.spotlight_side_inset,
-        barY - config.spotlight_vertical_offset,
-        lightZPos
-    );
-    spotLightLeft.target.position.set(
-        -paintingWidth / 4,
-        paintingCenterHeight - paintingHeight / 4,
-        standConfig.painting_z_offset
-    );
-    spotLightLeft.castShadow = config.spotlight_cast_shadow;
-    group.add(spotLightLeft);
-    group.add(spotLightLeft.target);
-    
-    const spotLightRight = new THREE.SpotLight(
-        config.spotlight_color,
-        config.spotlight_intensity,
-        config.spotlight_distance,
-        config.spotlight_angle,
-        config.spotlight_penumbra,
-        config.spotlight_decay
-    );
-    spotLightRight.position.set(
-        barHalfLength - config.spotlight_side_inset,
-        barY - config.spotlight_vertical_offset,
-        lightZPos
-    );
-    spotLightRight.target.position.set(
-        paintingWidth / 4,
-        paintingCenterHeight - paintingHeight / 4,
-        standConfig.painting_z_offset
-    );
-    spotLightRight.castShadow = config.spotlight_cast_shadow;
-    group.add(spotLightRight);
-    group.add(spotLightRight.target);
-    
-    const spotLightCenter = new THREE.SpotLight(
-        config.spotlight_color,
-        config.spotlight_intensity,
-        config.spotlight_distance,
-        config.spotlight_angle,
-        config.spotlight_penumbra,
-        config.spotlight_decay
-    );
-    spotLightCenter.position.set(
-        0,
-        barY - config.spotlight_vertical_offset,
-        lightZPos
-    );
-    spotLightCenter.target.position.set(
-        0,
-        paintingCenterHeight,
-        standConfig.painting_z_offset
-    );
-    spotLightCenter.castShadow = config.spotlight_cast_shadow;
-    group.add(spotLightCenter);
-    group.add(spotLightCenter.target);
+
     
     return group;
 }
