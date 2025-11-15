@@ -29,6 +29,8 @@ export function createFloor(scene: THREE.Scene, physicsWorld?: PhysicsWorld) {
     
     const plane = new THREE.Mesh(geometry, material);
     
+    plane.receiveShadow = true;
+
     plane.geometry.setAttribute('uv2', plane.geometry.attributes.uv);
 
     scene.add(plane);

@@ -13,7 +13,7 @@ export const museumConfig = {
         // Camera initial position
         initial_x: 0.0,
         initial_y: 1.6,
-        initial_z: 10.0,
+        initial_z: 5,
         eye_height: 1.6, // Height of camera from ground (meters)
         
         // View bobbing (head movement while walking/running)
@@ -69,14 +69,7 @@ export const museumConfig = {
     lighting: {
         // Ambient light
         ambient_color: 0xffffff,
-        ambient_intensity: 0.5,
-        
-        // Directional light (sun)
-        sun_color: 0xffffff,
-        sun_intensity: 1.5,
-        sun_position_x: 10.0,
-        sun_position_y: 20.0,
-        sun_position_z: 10.0,
+        ambient_intensity: 0,
         
         // Shadow properties for directional light
         shadows: {
@@ -148,6 +141,58 @@ export const museumConfig = {
         paint_normal_map: '/textures/paintings/paint.png',
         paint_normal_repeat_x: 6.0,
         paint_normal_repeat_y: 9.0,
+    },
+
+    statues: {
+        // Statue base dimensions and material
+        base_width: 3.0,
+        base_depth: 3.0,
+        base_height: 0.35,
+        base_color: 0x777777,
+        base_roughness: 0.8,
+        base_metalness: 0.1,
+
+        // Contact shadow under each base
+        contact_shadow_radius: 0.3,
+        contact_shadow_opacity: 0.23,
+        contact_shadow_color: 0x000000,
+
+        // Layout
+        stand_spacing: 6.0,
+        stands_per_row: 3,
+        row_spacing: 6.0,
+        start_position_x: 0.0,
+        start_position_y: 0.0,
+        start_position_z: 0.0,
+
+        // Statue models to place (from /static/models)
+        models: [
+            {
+                file: 'horse-dragon.glb',
+                scale: 1.0,
+                y_offset: 0,
+            },
+            {
+                file: 'tepsichore.glb',
+                scale: 1.0,
+                y_offset: 0,
+            },
+            {
+                file: 'bear.glb',
+                scale: 0.2,
+                y_offset: -0.5,
+            },
+            {
+                file: 'angel.glb',
+                scale: 0.2,
+                y_offset: 0,
+            },
+            {
+                file: 'poseidon.glb',
+                scale: 1,
+                y_offset: 0,
+            }
+        ],
     },
 
     stand: {
