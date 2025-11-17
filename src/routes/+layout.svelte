@@ -8,7 +8,7 @@
 
 	const siteTitle = '3D Museum';
 	const siteDescription = 'Explore an immersive 3D art gallery built with SvelteKit, Three.js, and Rapier physics.';
-	const siteImage = '/ogimage.png';
+	const siteImage = 'https://3d-muzeum.pages.dev/ogimage.png';
 
 	const updateBodyLock = (active: boolean) => {
 		if (typeof document === 'undefined') {
