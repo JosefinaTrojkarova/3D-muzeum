@@ -185,7 +185,7 @@ export const museumConfig = {
             {
                 file: 'angel.glb',
                 scale: 0.2,
-                y_offset: 0,
+                y_offset: -0.03,
             },
             {
                 file: 'poseidon.glb',
