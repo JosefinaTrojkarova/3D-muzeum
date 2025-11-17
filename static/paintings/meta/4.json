@@ -1,13 +1,16 @@
 {
-  "title": "Gold Spitting Jew",
-  "artist": "Ondřej Zábranský",
-  "year": "2010s",
+  "title": "Campfire at Sunrise in the Laramie Plains",
+  "artist": "Frank Buchser",
+  "year": "1866",
   "medium": "Oil on canvas",
-  "dimensions": {},
-  "style": "Figurative",
-  "description": "A controversial painting created by Czech artist Ondřej Zábranský, depicting antisemitic imagery. The work employs traditional painting techniques to propagate hateful stereotypes and conspiracy theories targeting Jewish people. This piece exemplifies how art can be weaponized to spread extremist ideologies.",
-  "artistBio": "Ondřej Zábranský is a Czech artist associated with neo-Nazi and far-right extremist movements. His works frequently promote white supremacist ideology, antisemitism, and historical revisionism. He has been convicted multiple times in the Czech Republic for promoting movements aimed at suppressing human rights and freedoms.",
-  "historicalContext": "This work was created during a period of rising far-right extremism and hate speech in parts of Europe. It represents the continuation of antisemitic visual propaganda that has historically been used to dehumanize Jewish people and incite violence. Such imagery echoes hateful tropes dating back centuries, including those employed during the Holocaust.",
-  "technique": "The painting employs traditional oil painting techniques and figurative representation, demonstrating how conventional artistic methods can be subverted to serve hateful purposes. The technical execution is overshadowed by the deeply problematic and dangerous ideological content.",
-  "location": "Holocaust museum Prague"
+  "dimensions": {
+    "width": 0.61,
+    "height": 1.02
+  },
+  "style": "Romantic realism",
+  "description": "Frank Buchser depicts a moment of quiet anticipation as the first light of day breaks over Wyoming's Laramie Plains. A group of travelers huddles around a dwindling campfire while distant ridgelines glow with lavender and gold, capturing the drama and vulnerability of frontier life during the westward expansion.",
+  "artistBio": "Swiss painter Frank Buchser (1828–1890) traveled widely through North Africa, the United States, and Europe, recording everyday scenes with luminous color and sharp observational detail. His American sojourn in the 1860s yielded portraits of Union generals and expansive western landscapes that blend documentary insight with romantic atmosphere.",
+  "historicalContext": "Painted shortly after the American Civil War, the work reflects European curiosity about the rapidly transforming American West. Railroad surveys, military expeditions, and emigrant caravans were pushing across the high plains, and artists like Buchser translated these encounters into images for salon audiences back home.",
+  "technique": "Buchser layers thin glazes over a warm ground to stage the sunrise, using impasto only in the fiery embers and silhouetted figures so the eye lingers on the human drama against the vast plain.",
+  "location": "Smithsonian American Art Museum, Washington, D.C."
 }
