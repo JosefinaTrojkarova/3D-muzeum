@@ -6,10 +6,6 @@
 	let showTouchNotice = $state(false);
 	const BODY_LOCK_CLASS = 'touch-notice-lock';
 
-	const siteTitle = '3D Museum';
-	const siteDescription = 'Explore an immersive 3D art gallery built with SvelteKit, Three.js, and Rapier physics.';
-	const siteImage = 'https://3d-muzeum.pages.dev/ogimage.png';
-
 	const updateBodyLock = (active: boolean) => {
 		if (typeof document === 'undefined') {
 			return;
@@ -57,20 +53,6 @@
 		};
 	});
 </script>
-
-<svelte:head>
-	<title>{siteTitle}</title>
-	<meta name="description" content={siteDescription}>
-	<meta property="og:type" content="website">
-	<meta property="og:site_name" content={siteTitle}>
-	<meta property="og:title" content={siteTitle}>
-	<meta property="og:description" content={siteDescription}>
-	<meta property="og:image" content={siteImage}>
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content={siteTitle}>
-	<meta name="twitter:description" content={siteDescription}>
-	<meta name="twitter:image" content={siteImage}>
-</svelte:head>
 
 {@render children()}
 
