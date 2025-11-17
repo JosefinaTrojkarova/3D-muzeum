@@ -3,7 +3,6 @@
     import * as THREE from "three";
     import { createRenderer } from "$lib/renderer/renderer";
     import { FirstPersonCamera } from "$lib/player/camera";
-    import { PhysicsWorld } from "$lib/physics/physics";
     import { initializeScene } from "$lib/scene/init";
     import { textureLoader } from "$lib/utils/textureLoader";
     import LoadingScreen from "$lib/components/LoadingScreen.svelte";
@@ -54,6 +53,7 @@
             );
             fpCamera = camera;
 
+            const { PhysicsWorld } = await import("$lib/physics/physics");
             const physics = new PhysicsWorld();
             await physics.init();
             

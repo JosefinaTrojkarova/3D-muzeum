@@ -1,14 +1,24 @@
-import RAPIER from '@dimforge/rapier3d';
 import * as THREE from 'three';
 import { getConfig } from '../config';
+import {
+    loadRapier,
+    type RapierModule,
+    type RapierWorld,
+    type RapierCollider,
+    type RapierRayColliderHit,
+    type RapierKinematicCharacterController
+} from './rapier';
 
 export class PhysicsWorld {
-    world: RAPIER.World | null = null;
+    world: RapierWorld | null = null;
     private initialized: boolean = false;
+    private rapier: RapierModule | null = null;
 
     async init() {
         if (this.initialized) return;
         
+        const RAPIER = await loadRapier();
+        this.rapier = RAPIER;
         const physicsConfig = getConfig().physics;
         
         // Create physics world with gravity
@@ -33,7 +43,7 @@ export class PhysicsWorld {
     /**
      * Create a kinematic character controller
      */
-    createCharacterController(offset: number = 0.01): RAPIER.KinematicCharacterController | null {
+    createCharacterController(offset: number = 0.01): RapierKinematicCharacterController | null {
         if (!this.world) return null;
         
         return this.world.createCharacterController(offset);
@@ -42,8 +52,9 @@ export class PhysicsWorld {
     /**
      * Create a capsule collider for the player
      */
-    createPlayerCollider(position: THREE.Vector3, radius: number = 0.3, height: number = 1.6): RAPIER.Collider | null {
+    createPlayerCollider(position: THREE.Vector3, radius: number = 0.3, height: number = 1.6): RapierCollider | null {
         if (!this.world) return null;
+        const RAPIER = this.requireRapier();
         
         // Create a capsule shape (radius, half-height of cylinder part)
         const halfHeight = (height - 2 * radius) / 2;
@@ -60,8 +71,9 @@ export class PhysicsWorld {
         position: THREE.Vector3,
         size: THREE.Vector3,
         rotation?: THREE.Quaternion
-    ): RAPIER.Collider | null {
+    ): RapierCollider | null {
         if (!this.world) return null;
+        const RAPIER = this.requireRapier();
         
         const halfExtents = {
             x: size.x / 2,
@@ -82,8 +94,9 @@ export class PhysicsWorld {
     /**
      * Create a static plane collider (for floors)
      */
-    createPlaneCollider(height: number = 0): RAPIER.Collider | null {
+    createPlaneCollider(height: number = 0): RapierCollider | null {
         if (!this.world) return null;
+        const RAPIER = this.requireRapier();
         
         // Create a large box to simulate an infinite plane
         const desc = RAPIER.ColliderDesc.cuboid(100, 0.1, 100)
@@ -99,9 +112,9 @@ export class PhysicsWorld {
         origin: THREE.Vector3,
         direction: THREE.Vector3,
         maxToi: number = 100
-    ): RAPIER.RayColliderHit | null {
+    ): RapierRayColliderHit | null {
         if (!this.world) return null;
-        
+        const RAPIER = this.requireRapier();
         const ray = new RAPIER.Ray(origin, direction);
         const hit = this.world.castRay(ray, maxToi, true);
         
@@ -124,5 +137,13 @@ export class PhysicsWorld {
             this.world = null;
         }
         this.initialized = false;
+        this.rapier = null;
+    }
+
+    private requireRapier(): RapierModule {
+        if (!this.rapier) {
+            throw new Error('Physics world not initialized');
+        }
+        return this.rapier;
     }
 }
