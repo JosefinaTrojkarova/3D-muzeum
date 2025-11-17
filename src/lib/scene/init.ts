@@ -34,7 +34,7 @@ export async function initializeScene(
     
     createFloor(scene, physics);
     
-    await createGallery(scene, physics);
+    await createGallery(scene, physics, renderer);
     
     return scene;
 }

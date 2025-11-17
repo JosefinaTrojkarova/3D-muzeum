@@ -1,3 +1,14 @@
+body {
+    background: #F1EEE8;
+    font-family: 'Instrument Serif', serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    line-height: .95;
+    font-size: 2rem;
+    color: #0F1014;
+}
+
 *, *:before, *:after {
     box-sizing: border-box;
 }

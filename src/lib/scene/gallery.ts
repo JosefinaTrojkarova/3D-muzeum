@@ -6,16 +6,28 @@ import { getConfig } from '../config';
 import { loadPlaqueData } from './plaque';
 import { createStatue } from './statue';
 
-export async function createGallery(scene: THREE.Scene, physics: PhysicsWorld): Promise<THREE.Group[]> {
+export async function createGallery(
+    scene: THREE.Scene,
+    physics: PhysicsWorld,
+    renderer?: THREE.WebGLRenderer
+): Promise<THREE.Group[]> {
     const config = getConfig().gallery;
     const statuesConfig = getConfig().statues;
     const stands: THREE.Group[] = [];
     
-    // Load the paint normal map for all paintings
-    const paintNormalMap = textureLoader.load(config.paint_normal_map, (texture) => {
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(config.paint_normal_repeat_x, config.paint_normal_repeat_y);
+    // Load the paint normal map for all paintings and wait for it to finish
+    const paintNormalMap = await new Promise<THREE.Texture>((resolve, reject) => {
+        textureLoader.load(
+            config.paint_normal_map,
+            (texture) => {
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set(config.paint_normal_repeat_x, config.paint_normal_repeat_y);
+                resolve(texture);
+            },
+            undefined,
+            reject
+        );
     });
     
     const centerPosition = new THREE.Vector3(
@@ -57,6 +69,8 @@ export async function createGallery(scene: THREE.Scene, physics: PhysicsWorld): 
     const totalPaintings = config.paintings.length;
     const ringRadius = config.stand_spacing * 3.0;
 
+    const paintingLoadPromises: Promise<void>[] = [];
+
     // Process paintings sequentially to maintain proper async flow
     for (let index = 0; index < totalPaintings; index++) {
         const paintingName = config.paintings[index];
@@ -91,10 +105,18 @@ export async function createGallery(scene: THREE.Scene, physics: PhysicsWorld): 
         );
         
         // Load the painting texture (this will update plaque when texture loads)
-        loadPaintingTexture(`/paintings/${paintingName}`, stand, paintNormalMap);
+        const paintingPromise = loadPaintingTexture(
+            `/paintings/${paintingName}`,
+            stand,
+            paintNormalMap,
+            renderer
+        );
+        paintingLoadPromises.push(paintingPromise);
         
         stands.push(stand);
     }
+
+    await Promise.all(paintingLoadPromises);
     
     return stands;
 }

@@ -76,86 +76,88 @@ export interface PaintingConfig {
     rotation?: number;
 }
 
-export function loadPaintingTexture(
+export async function loadPaintingTexture(
     imagePath: string,
     stand: THREE.Group,
-    normalMap?: THREE.Texture
-): void {
+    normalMap?: THREE.Texture,
+    renderer?: THREE.WebGLRenderer
+): Promise<void> {
     const config = getConfig().stand;
     
     // Use stored normal map if not provided
     const usedNormalMap = normalMap || (stand as any).normalMap;
-    
-    textureLoader.load(imagePath, (texture) => {
-        texture.colorSpace = THREE.SRGBColorSpace;
-        
-        if (texture.image) {
-            const image = texture.image as HTMLImageElement;
-            const paintingWidth = config.painting_default_width;
-            const aspectRatio = image.height / image.width;
-            const paintingHeight = paintingWidth * aspectRatio;
-            
-            // Create painting mesh
-            const paintingGeometry = new THREE.BoxGeometry(
-                paintingWidth,
-                paintingHeight,
-                config.painting_depth
-            );
-            
-            const frontMaterial = new THREE.MeshBasicMaterial({
-                map: texture
-            });
-            
-            const edgeMaterial = new THREE.MeshStandardMaterial({ 
-                normalMap: usedNormalMap,
-                color: config.painting_color,
-                roughness: config.painting_roughness,
-                metalness: config.painting_metalness
-            });
-            
-            const backMaterial = new THREE.MeshStandardMaterial({ 
-                color: config.painting_color,
-                roughness: config.painting_roughness,
-                metalness: config.painting_metalness
-            });
-            
-            const paintingMaterials = [
-                edgeMaterial,
-                edgeMaterial,
-                edgeMaterial,
-                edgeMaterial,
-                frontMaterial,
-                backMaterial
-            ];
-            
-            const painting = new THREE.Mesh(paintingGeometry, paintingMaterials);
-            painting.position.y = config.painting_center_height;
-            painting.position.z = config.painting_z_offset;
-            painting.castShadow = true;
-            painting.receiveShadow = true;
-            stand.add(painting);
-            
-            // Create picture light
-            if (!stand.children.find(child => child.type === 'Group' && child.children.length > 5)) {
-                const pictureLight = createPictureLight({
-                    paintingWidth,
-                    paintingHeight,
-                    paintingCenterHeight: config.painting_center_height
-                });
-                stand.add(pictureLight);
-            }
-            
-            // Create plaque
-            const plaqueData = (stand as any).plaqueData as PlaqueData | undefined;
-            if (plaqueData && !stand.children.find(child => child.name === 'plaque')) {
-                createPlaque(plaqueData, {
-                    paintingWidth,
-                    paintingHeight,
-                    paintingCenterHeight: config.painting_center_height
-                }).then(plaque => {
-                    stand.add(plaque);
-                });
-            }
-        }
+    const texture = await new Promise<THREE.Texture>((resolve, reject) => {
+        textureLoader.load(imagePath, resolve, undefined, reject);
     });
+
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    if (renderer) {
+        const initTexture = (renderer as THREE.WebGLRenderer & { initTexture?: (texture: THREE.Texture) => void }).initTexture;
+        initTexture?.call(renderer, texture);
+    }
+
+    const image = texture.image as { width?: number; height?: number } | undefined;
+    const paintingWidth = config.painting_default_width;
+    const aspectRatio = image?.width ? (image.height ?? image.width) / image.width : 1;
+    const paintingHeight = paintingWidth * aspectRatio;
+
+    const paintingGeometry = new THREE.BoxGeometry(
+        paintingWidth,
+        paintingHeight,
+        config.painting_depth
+    );
+
+    const frontMaterial = new THREE.MeshBasicMaterial({
+        map: texture
+    });
+
+    const edgeMaterial = new THREE.MeshStandardMaterial({ 
+        normalMap: usedNormalMap,
+        color: config.painting_color,
+        roughness: config.painting_roughness,
+        metalness: config.painting_metalness
+    });
+
+    const backMaterial = new THREE.MeshStandardMaterial({ 
+        color: config.painting_color,
+        roughness: config.painting_roughness,
+        metalness: config.painting_metalness
+    });
+
+    const paintingMaterials = [
+        edgeMaterial,
+        edgeMaterial,
+        edgeMaterial,
+        edgeMaterial,
+        frontMaterial,
+        backMaterial
+    ];
+
+    const painting = new THREE.Mesh(paintingGeometry, paintingMaterials);
+    painting.position.y = config.painting_center_height;
+    painting.position.z = config.painting_z_offset;
+    painting.castShadow = true;
+    painting.receiveShadow = true;
+    stand.add(painting);
+
+    // Create picture light only once per stand
+    if (!stand.children.find(child => child.type === 'Group' && child.children.length > 5)) {
+        const pictureLight = createPictureLight({
+            paintingWidth,
+            paintingHeight,
+            paintingCenterHeight: config.painting_center_height
+        });
+        stand.add(pictureLight);
+    }
+
+    const plaqueData = (stand as any).plaqueData as PlaqueData | undefined;
+    if (plaqueData && !stand.children.find(child => child.name === 'plaque')) {
+        const plaque = await createPlaque(plaqueData, {
+            paintingWidth,
+            paintingHeight,
+            paintingCenterHeight: config.painting_center_height
+        });
+        stand.add(plaque);
+    }
 }
