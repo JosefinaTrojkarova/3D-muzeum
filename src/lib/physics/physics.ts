@@ -1,4 +1,4 @@
-import RAPIER from '@dimforge/rapier3d-compat';
+import RAPIER from '@dimforge/rapier3d';
 import * as THREE from 'three';
 import { getConfig } from '../config';
 
@@ -8,8 +8,6 @@ export class PhysicsWorld {
 
     async init() {
         if (this.initialized) return;
-        
-        await RAPIER.init();
         
         const physicsConfig = getConfig().physics;
         

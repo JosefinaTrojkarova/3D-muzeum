@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import RAPIER from '@dimforge/rapier3d-compat';
+import RAPIER from '@dimforge/rapier3d';
 import type { PhysicsWorld } from '../physics/physics';
 import type { MovementInput } from './input';
 import { getConfig } from '../config';
