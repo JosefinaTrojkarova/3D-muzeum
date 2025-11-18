@@ -19,15 +19,35 @@
 			return false;
 		}
 
-		if ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0) {
-			return true;
-		}
+		const hasTouchInput = () => {
+			if ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0) {
+				return true;
+			}
 
-		const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
-		const anyCoarsePointer = window.matchMedia('(any-pointer: coarse)').matches;
-		const noHover = window.matchMedia('(hover: none)').matches;
+			const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+			const anyCoarsePointer = window.matchMedia('(any-pointer: coarse)').matches;
+			const noHover = window.matchMedia('(hover: none)').matches;
 
-		return coarsePointer || anyCoarsePointer || noHover;
+			return coarsePointer || anyCoarsePointer || noHover;
+		};
+
+		const isLikelyMobile = () => {
+			const nav = navigator as Navigator & {
+				userAgentData?: { mobile?: boolean };
+			};
+
+			if (nav.userAgentData?.mobile) {
+				return true;
+			}
+
+			const ua = nav.userAgent?.toLowerCase() ?? '';
+			const mobileRegex = /android|iphone|ipad|ipod|mobile|blackberry|iemobile|opera mini/;
+
+			// Require a mobile user agent to avoid flagging hybrid touch laptops like Surface
+			return mobileRegex.test(ua);
+		};
+
+		return hasTouchInput() && isLikelyMobile();
 	};
 
 	onMount(() => {
