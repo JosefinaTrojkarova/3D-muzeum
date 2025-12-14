@@ -1,5 +1,8 @@
 Live: https://3d-muzeum.pages.dev/
 
+POUŽITÉ ZDROJE:
+Při této práci BYLO použito AI ve formě github copilotu. Bylo využito modelů claude sonnet 4.5 a GPT 5 Codex. Historii specifických chatů nelze sdílet protože to copilot neumožňuje. AI bylo použito ve většině souborů ve formě autofillu a případně chat sidebaru.
+
 # 3D Museum
 
 This repo contains a small first-person 3D gallery built with SvelteKit, Three.js, and Rapier. It lets you walk through a curated room, view artwork on stands, and experience custom lighting, materials, and ambience.
